@@ -1,0 +1,498 @@
+openapi: 3.0.3
+info:
+  title: Swagger Store - OpenAPI 3.0
+  version: 1.0.11
+servers:
+  - url:  http://127.0.0.1:8000/api/v1/
+    description: Dev server
+paths:
+  /products:
+    get:
+      summary: Get all products
+      tags:
+        - Products
+      operationId: getProducts
+      responses:
+        '200':
+          description: Successful getting products
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Products'  
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Product is not found
+        'default':
+          description: Unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'   
+    post:
+      summary: Create new product
+      tags:
+        - Products
+      operationId: createProduct
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '201':
+          description: Successful creating of product
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'   
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Product is not found
+        'default':
+          description: Unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'   
+
+  /products/{product_id}:
+    get:
+      summary: Get product by Id
+      tags:
+        - Products
+      operationId: getProductById
+      parameters: 
+        - name: product_id
+          in: path
+          required: true
+          description: Id of product
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful getting of product by id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'   
+        '400':
+          description: Invalid ID product
+        '404':
+          description: Product is not found
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        'default':
+          description: Unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'  
+    delete:
+      summary: Delete product by Id
+      tags:
+        - Products
+      operationId: deleteProductById
+      parameters: 
+        - name: product_id
+          in: path
+          required: true
+          description: Id of product
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful deleting of product by id
+          content:
+            application/json: {} 
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Product is not found
+        'default':
+          description: Unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'  
+    put:
+      tags:
+        - Products
+      summary: Update an existing product by all fields
+      description: Update an existing product by Id
+      operationId: updateProduct
+      parameters: 
+        - name: product_id
+          in: path
+          required: true
+          description: Id of product
+          schema:
+            type: string
+      requestBody:
+        description: Update an existent product in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'     
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Product is not found
+        '405':
+          description: Validation exception
+        'default':
+          description: Unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'  
+    patch:
+      tags:
+        - Products
+      summary: Update an existing product by no all fields
+      description: Update an existing product by Id
+      operationId: updateProduct
+      parameters: 
+        - name: product_id
+          in: path
+          required: true
+          description: Id of product
+          schema:
+            type: string
+        - in: body
+          name: product
+          description: Product object that needs to be updated
+          required: true
+          schema:
+            $ref: '#/components/schemas/Product'
+      # requestBody:
+      #   description: Update an existent product in the store
+      #   content:
+      #     application/json: {} 
+      #   required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'          
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Product is not found
+        '405':
+          description: Validation exception
+        'default':
+          description: Unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'  
+                
+  /categories:
+    get:
+      summary: Get all categories
+      tags:
+        - Categories
+      operationId: getCategories
+      responses:
+        '200':
+          description: Successful getting categories
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Categories'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Category is not found
+        'default':
+          description: Unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'   
+    post:
+      summary: Create new category
+      tags:
+        - Categories
+      operationId: createCategory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+      responses:
+        '201':
+          description: Successful creating of category
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'   
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Category is not found
+        'default':
+          description: Unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'   
+                
+  /categories/{category_id}:
+    get:
+      summary: Get category by Id
+      tags:
+        - Categories
+      operationId: getCategoryById
+      parameters: 
+        - name: category_id
+          in: path
+          required: true
+          description: Id of category
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful getting of category by id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'   
+        '400':
+          description: Invalid ID category
+        '404':
+          description: Category is not found
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        'default':
+          description: Unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'  
+    delete:
+      summary: Delete Category by Id
+      tags:
+        - Categories
+      operationId: deleteCategoryById
+      parameters: 
+        - name: category_id
+          in: path
+          required: true
+          description: Id of category
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful deleting of category by id
+          content:
+            application/json: {} 
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Category is not found
+        'default':
+          description: Unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'  
+    put:
+      tags:
+        - Categories
+      summary: Update an existing category by all fields
+      description: Update an existing category by Id
+      operationId: updateCategory
+      parameters: 
+        - name: category_id
+          in: path
+          required: true
+          description: Id of category
+          schema:
+            type: string
+      requestBody:
+        description: Update an existent category
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'          
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Category not found
+        '405':
+          description: Validation exception
+        'default':
+          description: Unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'  
+    patch:
+      tags:
+        - Categories
+      summary: Update an existing category by no all fields
+      description: Update an existing category by Id
+      operationId: updateCategory
+      parameters: 
+        - name: category_id
+          in: path
+          required: true
+          description: Id of category
+          schema:
+            type: string
+      requestBody:
+        description: Update an existent category
+        content:
+          application/json: {} 
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'          
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Category is not found
+        '405':
+          description: Validation exception
+        'default':
+          description: Unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'  
+                
+components:
+  schemas:
+    Product:
+      type: object
+      required:
+        - name
+        - price
+        - stock
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        name:
+          type: string
+          example: Cup
+        price:
+          type: integer
+          format: int32
+          example: 700
+        stock:
+          type: integer
+          format: int32
+          example: 10
+        category_id:
+          type: integer
+          format: int32
+          example: 5
+        created_at:
+          type: string
+          format: date-time
+        
+    Products:
+      type: array
+      items:
+        $ref: "#/components/schemas/Product"
+        
+    Category:
+      type: object
+      required:
+        - title
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        title:
+          type: string
+          example: Household products
+        description:
+          type: string
+          example: It is description for household products
+        created_at:
+          type: string
+          format: date-time
+        
+    Categories:
+      type: array
+      items:
+        $ref: "#/components/schemas/Category"
+        
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+          
+          
+    
+    
+    
+    
+    
+    
+    
